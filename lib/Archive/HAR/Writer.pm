@@ -51,6 +51,8 @@ must be a L<HTTP::Response>.
 
 =back
 
+Other classes may be supported in the future.
+
 =cut
 
 sub add_http_transaction ($self, $transaction) {
