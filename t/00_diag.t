@@ -9,26 +9,29 @@ eval { require 'Test/More.pm' };
 my %modules;
 my $post_diag;
 
+BEGIN { eval q{ use EV; } }
 $modules{$_} = $_ for qw(
   Class::Tiny
   Cpanel::JSON::XS
+  EV
   ExtUtils::MakeMaker
+  HTTP::Request
+  HTTP::Response
   JSON::MaybeXS
   JSON::PP
   JSON::XS
+  Mojo::Transaction::HTTP
   Path::Tiny
+  Ref::Util
   Test2::V0
 );
 
-
-
 my @modules = sort keys %modules;
 
-sub spacer ()
-{
-  diag '';
-  diag '';
-  diag '';
+sub spacer () {
+    diag '';
+    diag '';
+    diag '';
 }
 
 pass 'okay';
@@ -41,49 +44,40 @@ spacer;
 
 my @keys = sort grep /(MOJO|PERL|\A(LC|HARNESS)_|\A(SHELL|LANG)\Z)/i, keys %ENV;
 
-if(@keys > 0)
-{
-  diag "$_=$ENV{$_}" for @keys;
+if ( @keys > 0 ) {
+    diag "$_=$ENV{$_}" for @keys;
 
-  if($ENV{PERL5LIB})
-  {
+    if ( $ENV{PERL5LIB} ) {
+        spacer;
+        diag "PERL5LIB path";
+        diag $_ for split $Config{path_sep}, $ENV{PERL5LIB};
+
+    } elsif ( $ENV{PERLLIB} ) {
+        spacer;
+        diag "PERLLIB path";
+        diag $_ for split $Config{path_sep}, $ENV{PERLLIB};
+    }
+
     spacer;
-    diag "PERL5LIB path";
-    diag $_ for split $Config{path_sep}, $ENV{PERL5LIB};
-
-  }
-  elsif($ENV{PERLLIB})
-  {
-    spacer;
-    diag "PERLLIB path";
-    diag $_ for split $Config{path_sep}, $ENV{PERLLIB};
-  }
-
-  spacer;
 }
 
 diag sprintf $format, 'perl', "$] $^O $Config{archname}";
 
-foreach my $module (sort @modules)
-{
-  my $pm = "$module.pm";
-  $pm =~ s{::}{/}g;
-  if(eval { require $pm; 1 })
-  {
-    my $ver = eval { $module->VERSION };
-    $ver = 'undef' unless defined $ver;
-    diag sprintf $format, $module, $ver;
-  }
-  else
-  {
-    diag sprintf $format, $module, '-';
-  }
+foreach my $module ( sort @modules ) {
+    my $pm = "$module.pm";
+    $pm =~ s{::}{/}g;
+    if ( eval { require $pm; 1 } ) {
+        my $ver = eval { $module->VERSION };
+        $ver = 'undef' unless defined $ver;
+        diag sprintf $format, $module, $ver;
+    } else {
+        diag sprintf $format, $module, '-';
+    }
 }
 
-if($post_diag)
-{
-  spacer;
-  $post_diag->();
+if ($post_diag) {
+    spacer;
+    $post_diag->();
 }
 
 spacer;

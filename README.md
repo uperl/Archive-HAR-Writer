@@ -4,17 +4,24 @@ Interface for writing HTTP Archive (HAR) files.
 
 # SYNOPSIS
 
+```perl
+use Archive::HAR::Writer;
+
+my $har = Archive::HAR::Writer->new;
+$har->add_http_transaction([$request, $response]);
+$har->write_file('archive.har');
+```
+
 # DESCRIPTION
 
-# NAME
-
-Archive::HAR::Writer - Interface for writing HTTP Archive (HAR) files
+This class builds a HTTP Archive (HAR) 1.2 document out of a series of HTTP
+transactions, and writes it out as JSON to a file, file handle, or string.
 
 # PROPERTIES
 
-## api
+## `api`
 
-API level to use.  Defaults to 1.  If breakinch changes are made to the API,
+API level to use.  Defaults to 1.  If breaking changes are made to the API,
 this value can be used to control which version is used.
 
 # METHODS
@@ -30,7 +37,7 @@ Add the HTTP transaction to the archive.  `$transaction` should be one of:
 
 - [Mojo::Transaction::HTTP](https://metacpan.org/pod/Mojo::Transaction::HTTP)
 
-    A mojolicious HTTP transaction object.
+    A Mojolicious HTTP transaction object.
 
 - `[$request, $response]`
 
