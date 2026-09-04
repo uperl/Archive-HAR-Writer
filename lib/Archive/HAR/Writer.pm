@@ -2,9 +2,10 @@ package Archive::HAR::Writer;
 
 # ABSTRACT: Interface for writing HTTP Archive (HAR) files.
 
-use v5.42;
+use 5.042;
 use warnings;
 use Path::Tiny;
+use JSON::MaybeXS ();
 
 =head1 NAME
 
@@ -16,9 +17,7 @@ Archive::HAR::Writer - Interface for writing HTTP Archive (HAR) files
 
 =cut
 
-use Class::Tiny {
-    api => sub { 1 },
-};
+use Class::Tiny { api => sub { 1 } };
 
 =head1 PROPERTIES
 
@@ -55,8 +54,8 @@ Other classes may be supported in the future.
 
 =cut
 
-sub add_http_transaction ($self, $transaction) {
-    ...
+sub add_http_transaction ( $self, $transaction ) {
+    ...;
 }
 
 =head2 write_file
@@ -70,7 +69,7 @@ Write the HAR archive to a file.
 sub write_file ( $self, $path ) {
     $path = Path::Tiny->new($path) unless $path isa Path::Tiny;
 
-    ...
+    ...;
 }
 
 =head2 write
@@ -83,7 +82,7 @@ Write the HAR archive to a file handle or string reference.
 =cut
 
 sub write ( $self, $fh ) {
-    ...
+    ...;
 }
 
 =head1 SEE ALSO
