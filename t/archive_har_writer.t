@@ -1,4 +1,5 @@
 use Test2::V0 -no_srand => 1;
+use v5.42;
 use Archive::HAR::Writer;
 
 ok 1, 'todo';
