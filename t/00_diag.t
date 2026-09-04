@@ -19,6 +19,7 @@ $modules{$_} = $_ for qw(
   HTTP::Response
   JSON::MaybeXS
   JSON::PP
+  JSON::Validator
   JSON::XS
   Mojo::Transaction::HTTP
   Path::Tiny
