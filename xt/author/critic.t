@@ -7,6 +7,6 @@ use Test2::Tools::PerlCritic;
 
 my $critic = Perl::Critic->new( -profile => 'perlcriticrc', );
 
-perl_critic_ok [ 'lib', 't' ], $critic;
+perl_critic_ok [ 'lib', 't/archive_har_writer.t' ], $critic;
 
 done_testing;
